@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'teleuss-4adf1.firebasestorage.app',
     measurementId: 'G-N94VMB2HJ2',
   );
+
 }
