@@ -14,22 +14,45 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mis Citas'),
+        title: const Text('🗓️ Mis Citas'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cerrar sesión',
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacementNamed(context, '/login');
+              final salir = await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Cerrar sesión'),
+                  content: const Text('¿Estás seguro que deseas Salir?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text('❌ Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: const Text('🔒 Salir'),
+                    ),
+                  ],
+                ),
+              );
+              if (salir == null || salir == true) {
+
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacementNamed(context, '/login');
+                
+              }
             },
           )
         ],
       ),
+
       body: StreamBuilder<QuerySnapshot>(
         stream: citasStream,
         builder: (context, snapshot) {
-          if (snapshot.hasError) return Center(child: Text('Error al cargar citas'));
-          if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+          if (snapshot.hasError) return const Center(child: Text('Error al cargar citas'));
+          if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
 
           final citas = snapshot.data!.docs;
           return ListView.builder(
@@ -47,7 +70,7 @@ class HomeScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) => AgendarCitaScreen()));
         },
@@ -58,7 +81,7 @@ class HomeScreen extends StatelessWidget {
 
 class AgendarCitaScreen extends StatefulWidget {
   @override
-  _AgendarCitaScreenState createState() => _AgendarCitaScreenState();
+  State<AgendarCitaScreen> createState() => _AgendarCitaScreenState();
 }
 
 class _AgendarCitaScreenState extends State<AgendarCitaScreen> {
@@ -72,17 +95,29 @@ class _AgendarCitaScreenState extends State<AgendarCitaScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Agendar Nueva Cita')),
+      appBar: AppBar(title: const Text('Agendar Nueva Cita')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(controller: _doctorController, decoration: InputDecoration(labelText: 'Doctor')),
-              TextFormField(controller: _fechaController, decoration: InputDecoration(labelText: 'Fecha (YYYY-MM-DD)')),
-              TextFormField(controller: _horaController, decoration: InputDecoration(labelText: 'Hora (HH:MM)')),
-              SizedBox(height: 20),
+              TextFormField(
+                controller: _doctorController,
+                decoration: const InputDecoration(labelText: 'Doctor'),
+                validator: (value) => value == null || value.isEmpty ? 'Ingresa el nombre del doctor' : null,
+              ),
+              TextFormField(
+                controller: _fechaController,
+                decoration: const InputDecoration(labelText: 'Fecha (YYYY-MM-DD)'),
+                validator: (value) => value == null || value.isEmpty ? 'Ingresa la fecha' : null,
+              ),
+              TextFormField(
+                controller: _horaController,
+                decoration: const InputDecoration(labelText: 'Hora (HH:MM)'),
+                validator: (value) => value == null || value.isEmpty ? 'Ingresa la hora' : null,
+              ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -96,7 +131,7 @@ class _AgendarCitaScreenState extends State<AgendarCitaScreen> {
                     Navigator.pop(context);
                   }
                 },
-                child: Text('Guardar Cita'),
+                child: const Text('Guardar Cita'),
               )
             ],
           ),
