@@ -1,7 +1,17 @@
-// lib/main.dart
-import 'package:flutter/material.dart';
 
-void main() {
+// import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'screens/login_screen.dart';
+import 'screens/home_screen.dart'; // Crearemos después
+import 'firebase_options.dart'; // <-- IMPORTANTE
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(TeleUSSApp());
 }
 
@@ -14,7 +24,11 @@ class TeleUSSApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/home',
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/home': (context) => HomeScreen(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }
