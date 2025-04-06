@@ -14,38 +14,104 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🗓️ Mis Citas'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Cerrar sesión',
-            onPressed: () async {
-              final salir = await showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Cerrar sesión'),
-                  content: const Text('¿Estás seguro que deseas Salir?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text('❌ Cancelar'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text('🔒 Salir'),
-                    ),
-                  ],
-                ),
-              );
-              if (salir == null || salir == true) {
+        title: const Text('TeleUSS - Mis Citas 🗓️'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.account_circle, size: 50, color: Colors.white),
+                  const SizedBox(height: 10),
+                  Text(
+                    FirebaseAuth.instance.currentUser?.email ?? 'Usuario',
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
 
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacementNamed(context, '/login');
-                
-              }
-            },
-          )
-        ],
+            // 🏠 Inicio
+            ListTile(
+              leading: const Text('🏠'),
+              title: const Text('Inicio'),
+              onTap: () => Navigator.pop(context),
+            ),
+
+            // 👤 Perfil del Paciente
+            ListTile(
+              leading: const Text('👤'),
+              title: const Text('Perfil del Paciente'),
+              onLongPress: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('🔧 Función en construcción')),
+                );
+              },
+            ),
+
+            // ⚙️ Configuración de Cuenta
+            ListTile(
+              leading: const Text('⚙️'),
+              title: const Text('Configuración de Cuenta'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('⚙️ Configuración próximamente')),
+                );
+              },
+            ),
+
+            // 🧑‍⚕️ Panel de Doctores / Panelería
+            ListTile(
+              leading: const Text('🧑‍⚕️'),
+              title: const Text('Panel de Doctor'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('🧑‍⚕️ Panel de doctor en construcción')),
+                );
+              },
+            ),
+
+            const Divider(),
+
+            // 🔓 Cerrar sesión
+            ListTile(
+              leading: const Text('🔓'),
+              title: const Text('Cerrar Sesión'),
+              onTap: () async {
+                final salir = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Cerrar sesión'),
+                    content: const Text('¿Estás seguro que quieres salir?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: const Text('❌ Cancelar'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: const Text('🔒 Salir'),
+                      ),
+                    ],
+                  ),
+                );
+                if (salir == true) {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacementNamed(context, '/login');
+                }
+              },
+            ),
+          ],
+        ),
       ),
 
       body: StreamBuilder<QuerySnapshot>(
