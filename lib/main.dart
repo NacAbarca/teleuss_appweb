@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'screens/manual_login_screen.dart';
-import 'screens/home_screen.dart'; // Crearemos después
+import 'views/manual_login_screen.dart';
+import 'views/home_screen.dart'; // Crearemos después
 import 'firebase_options.dart'; // <-- IMPORTANTE
+import 'routes/app_router.dart'; // <-- IMPORTANTE
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,6 @@ class TeleUSSApp extends StatelessWidget {
       ),
       initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/home',
       routes: {
-        // '/login': (context) => LoginScreen(), -> auth google
         '/login': (context) => ManualLoginScreen(),
         '/home': (context) => HomeScreen(),
       },
@@ -33,19 +33,3 @@ class TeleUSSApp extends StatelessWidget {
   }
 }
 
-// class HomeScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Bienvenido a TeleUSS'),
-//       ),
-//       body: Center(
-//         child: Text(
-//           'App para usuarios sordos',
-//           style: TextStyle(fontSize: 20),
-//         ),
-//       ),
-//     );
-//   }
-// }
