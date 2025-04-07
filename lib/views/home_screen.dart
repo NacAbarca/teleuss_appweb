@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/usuario_service.dart';
 
 class HomeScreen extends StatelessWidget {
   final User? user = FirebaseAuth.instance.currentUser;
@@ -41,18 +42,24 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               leading: const Text('🏠'),
               title: const Text('Inicio'),
-              onTap: () => Navigator.pop(context),
-            ),
-
-            // 👤 Perfil del Paciente
-            ListTile(
-              leading: const Text('👤'),
-              title: const Text('Perfil del Paciente'),
-              onLongPress: () {
+              // tooltip: 'Volver a la pantalla principal',
+              onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('🔧 Función en construcción')),
+                  const SnackBar(content: Text('🏠 Volviendo a la pantalla principal')),
                 );
+              },
+              // onTap: () => Navigator.pop(context),
+            ),
+
+            // 👤 Gestion de usuarios
+            ListTile(
+              leading: const Text('👤'),
+              title: const Text('Gestion de usuarios'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/usuarios');
+                // r
               },
             ),
 
@@ -80,8 +87,34 @@ class HomeScreen extends StatelessWidget {
               },
             ),
 
+            // Línea separadora
+            const Divider(height: 30),
+
+            // 📋 Lista de opciones adicionales
+            ListTile(
+              leading: const Text('📝'),
+              title: const Text('¿Primera vez aquí? Crear una cuenta'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.pushNamed(context, '/registro');
+              },
+            ),
+            
             const Divider(),
 
+            // ListTile(
+            //   leading: const Text('🧪'),
+            //   title: const Text('Crear usuarios demo'),
+            //   onTap: () async {
+            //     Navigator.pop(context);
+            //     await UsuarioService().crearUsuariosDummy(); // ✅ Correcto
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       const SnackBar(content: Text('✅ Usuarios demo creados')),
+            //     );
+            //   }
+            // ),
+
+            const Divider(),
             // 🔓 Cerrar sesión
             ListTile(
               leading: const Text('🔓'),

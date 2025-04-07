@@ -21,13 +21,25 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -42,42 +54,6 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBEq1ndAo9TxE5jStw9MMzNdhkrrqbz8vU',
-    appId: '1:1049320850922:web:572461da09005290cc1e93',
-    messagingSenderId: '1049320850922',
-    projectId: 'teleuss-4adf1',
-    authDomain: 'teleuss-4adf1.firebaseapp.com',
-    storageBucket: 'teleuss-4adf1.firebasestorage.app',
-    measurementId: 'G-ZV619L5S02',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBmurafaf1lWkGt0AWAXWglcu4zLzTpy-k',
-    appId: '1:1049320850922:android:09db10b4b59c79e5cc1e93',
-    messagingSenderId: '1049320850922',
-    projectId: 'teleuss-4adf1',
-    storageBucket: 'teleuss-4adf1.firebasestorage.app',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBkg3QJjl571pmzLh6nQ-bxA7vVKm5oduw',
-    appId: '1:1049320850922:ios:11d6a774f6050b2bcc1e93',
-    messagingSenderId: '1049320850922',
-    projectId: 'teleuss-4adf1',
-    storageBucket: 'teleuss-4adf1.firebasestorage.app',
-    iosBundleId: 'com.example.teleussAppweb',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBkg3QJjl571pmzLh6nQ-bxA7vVKm5oduw',
-    appId: '1:1049320850922:ios:11d6a774f6050b2bcc1e93',
-    messagingSenderId: '1049320850922',
-    projectId: 'teleuss-4adf1',
-    storageBucket: 'teleuss-4adf1.firebasestorage.app',
-    iosBundleId: 'com.example.teleussAppweb',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBEq1ndAo9TxE5jStw9MMzNdhkrrqbz8vU',
     appId: '1:1049320850922:web:0ca436ffbcd157e4cc1e93',
     messagingSenderId: '1049320850922',
     projectId: 'teleuss-4adf1',
@@ -85,5 +61,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'teleuss-4adf1.firebasestorage.app',
     measurementId: 'G-N94VMB2HJ2',
   );
-
 }
